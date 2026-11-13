@@ -285,6 +285,8 @@ public class UserServiceImpl implements UserService {
 			throw new NullPointerException("False request...");
 		}
 
+		System.out.println("given id :- " + id + ", sender user id :- " + userId);
+
 		try {
 			User _user = userRepository.findById(id).get();
 			if (_user == null) {
