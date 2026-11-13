@@ -24,7 +24,6 @@ public class User implements Serializable {
 	@Indexed
 	private String fullName;
 	@Indexed
-	@JsonIgnore
 	private String password;
 	@Indexed
 	private String profileImage;
