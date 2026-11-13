@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 			String token = jwtUtil.generateToken(user.getId(), user.getUserName());
-			return new JWTResponseDTO(token, user.getId());
+			return new JWTResponseDTO(user.getId(), token);
 
 		} catch (Exception e) {
 			throw new ArithmeticException("Invalid credential...");
