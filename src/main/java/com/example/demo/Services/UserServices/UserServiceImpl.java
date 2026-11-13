@@ -199,7 +199,7 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			UserRoles roles = roleRepository.findByUserId(user.getId());
+			UserRoles roles = roleRepository.findByUserId(_user.getId());
 
 			if (roles == null) {
 
