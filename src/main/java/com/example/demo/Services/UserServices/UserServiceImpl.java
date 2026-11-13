@@ -292,7 +292,7 @@ public class UserServiceImpl implements UserService {
 			if (_user == null) {
 				throw new Exception();
 			}
-			if (!user.getId().equals(userId)) {
+			if (!_user.getId().equals(userId)) {
 
 				UserRoles roles = roleRepository.findByUserId(userId);
 
