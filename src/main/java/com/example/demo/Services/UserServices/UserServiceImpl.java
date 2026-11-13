@@ -96,6 +96,8 @@ public class UserServiceImpl implements UserService {
 
 		}
 
+		System.out.println(user.toString());
+
 		if (user.getUserName() == null || user.getPassword() == null || user.getUserName() == null) {
 			throw new NullPointerException("Have to put all the data perfectly at here...");
 		}
