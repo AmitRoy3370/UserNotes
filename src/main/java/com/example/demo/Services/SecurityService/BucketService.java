@@ -1,0 +1,49 @@
+package com.example.demo.Services.SecurityService;
+
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.stereotype.Service;
+
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Refill;
+
+@Service
+public class BucketService {
+
+	private Bucket globalBucket = Bucket.builder()
+			.addLimit(Bandwidth.classic(10000, Refill.intervally(10000, Duration.ofMinutes(1)))).build();
+
+	private Map<String, Bucket> userCatche = new ConcurrentHashMap<>();
+
+	public Bucket resolvePersonalUses(String key) {
+
+		return userCatche.computeIfAbsent(key, this::createNewBucket);
+
+	}
+
+	private Bucket createNewBucket(String key) {
+
+		return Bucket.builder().addLimit(Bandwidth.classic(100, Refill.intervally(100, Duration.ofMinutes(1)))).build();
+
+	}
+
+	public Bucket getGlobalBucket() {
+		return globalBucket;
+	}
+
+	public void setGlobalBucket(Bucket globalBucket) {
+		this.globalBucket = globalBucket;
+	}
+
+	public Map<String, Bucket> getUserCatche() {
+		return userCatche;
+	}
+
+	public void setUserCatche(Map<String, Bucket> userCatche) {
+		this.userCatche = userCatche;
+	}
+
+}
