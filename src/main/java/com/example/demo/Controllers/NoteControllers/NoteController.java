@@ -76,7 +76,7 @@ public class NoteController {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
 
-			// Pass the array directly, no need for .toArray()
+
 			Notes updatedNote = noteService.updateNotes(notes, userId, id, files);
 			return ResponseEntity.ok(updatedNote);
 		} catch (Exception e) {

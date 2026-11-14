@@ -205,7 +205,7 @@ public class NoteServiceImpl implements NoteService {
 
 			}
 
-			if (_notes.getUserId().equals(userId)) {
+			if (!_notes.getUserId().equals(userId)) {
 
 				throw new Exception();
 
