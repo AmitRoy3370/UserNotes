@@ -146,7 +146,7 @@ public class NoteServiceImpl implements NoteService {
 
 		notes = noteRepository.save(notes);
 
-		if (notes != null) {
+		if (notes == null) {
 
 			throw new ArithmeticException("Data not saved...");
 
@@ -287,7 +287,7 @@ public class NoteServiceImpl implements NoteService {
 
 		notes = noteRepository.save(notes);
 
-		if (notes != null) {
+		if (notes == null) {
 
 			throw new ArithmeticException("Data not saved...");
 
@@ -866,7 +866,7 @@ public class NoteServiceImpl implements NoteService {
 		}
 
 		if (!ownPost) {
-			
+
 			try {
 
 				UserRoles roles = rolesRepository.findByUserId(userId);
