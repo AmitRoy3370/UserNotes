@@ -95,9 +95,9 @@ public class UserRolesController {
 		} catch (Exception e) {
 			return errorResponse(e);
 		}
-	}
+	}}
 
-	@PostMapping("/users/in") 
+	@PostMapping("/users/in")
 	public ResponseEntity<?> findByUserIdIn(@RequestBody List<String> usersId) {
 		try {
 			List<UserRoles> rolesList = rolesService.findByUserIdIn(usersId);
