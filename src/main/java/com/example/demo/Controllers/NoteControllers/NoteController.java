@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +25,7 @@ import com.example.demo.DTOFiles.NoteResponseDTO;
 import com.example.demo.Models.NoteModels.Notes;
 import com.example.demo.Models.UserModels.User;
 import com.example.demo.Services.NoteServices.NoteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,14 +36,23 @@ public class NoteController {
 	@Autowired
 	private NoteService noteService;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	private ResponseEntity<?> errorResponse(Exception e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
 
+
 	@PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> addNotes(@AuthenticationPrincipal User authUser, @RequestPart("notes") Notes notes,
-			@RequestPart(value = "files", required = false) MultipartFile[] files) {
+	public ResponseEntity<?> addNotes(
+			@AuthenticationPrincipal User authUser,
+			@RequestParam("notes") String notesJson,
+			@RequestParam(value = "files", required = false) MultipartFile[] files) {
 		try {
+
+			Notes notes = objectMapper.readValue(notesJson, Notes.class);
+
 			String userId = authUser.getId();
 			Notes savedNote = noteService.adNotes(notes, userId, files);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
@@ -51,10 +61,17 @@ public class NoteController {
 		}
 	}
 
+
 	@PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> updateNotes(@PathVariable String id, @AuthenticationPrincipal User authUser,
-			@RequestPart("notes") Notes notes, @RequestPart(value = "files", required = false) MultipartFile[] files) {
+	public ResponseEntity<?> updateNotes(
+			@PathVariable String id,
+			@AuthenticationPrincipal User authUser,
+			@RequestParam("notes") String notesJson,
+			@RequestParam(value = "files", required = false) MultipartFile[] files) {
 		try {
+
+			Notes notes = objectMapper.readValue(notesJson, Notes.class);
+
 			String userId = authUser.getId();
 			Notes updatedNote = noteService.updateNotes(notes, userId, id, files);
 			return ResponseEntity.ok(updatedNote);
@@ -115,7 +132,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/users/in")
-	public ResponseEntity<?> findByUserIdIn(@org.springframework.web.bind.annotation.RequestBody List<String> usersId) {
+	public ResponseEntity<?> findByUserIdIn(@RequestBody List<String> usersId) {
 		try {
 			List<NoteResponseDTO> responses = noteService.findByUserIdIn(usersId);
 			return ResponseEntity.ok(responses);
