@@ -22,10 +22,10 @@ public interface UserRolesRepository extends MongoRepository<UserRoles, String> 
 	@Query("{ 'userId': { $in: ?0 } }")
 	List<UserRoles> findByUserIdIn(List<String> usersId);
 
-	@Query("{ 'roles': { $elemMatch: { $regex: ?0, $options: 'i' } } }")
+	@Query("{ 'roles': { $regex: ?0, $options: 'i' } }")
 	List<UserRoles> findByRolesContainingIgnoreCase(Roles roles);
 
-	@Query("{ 'roles': { $elemMatch: { $regex: ?0, $options: 'i' } } }")
+	@Query("{ 'roles': { $regex: ?0, $options: 'i' } }")
 	Page<UserRoles> findByRolesContainingIgnoreCase(Roles roles, Pageable page);
 
 }
