@@ -49,16 +49,23 @@ public class NoteController {
 		@PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> addNotes(
 			@AuthenticationPrincipal User authUser,
-			@RequestParam("notes") String notesJson, // Reads as a simple String
-			@RequestPart(value = "files", required = false) List<MultipartFile> files) { // Reads files
+			@RequestParam("notes") String notesJson,
+			@RequestPart(value = "files", required = false) [] files) {
 		try {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
 
-			// Convert List to Array for your service
-			MultipartFile[] filesArray = (files != null) ? files.toArray(new MultipartFile[0]) : null;
+            if(files != null) {
 
-			Notes savedNote = noteService.adNotes(notes, userId, filesArray);
+            System.out.println("total files send :- " + files.length);
+
+		} else {
+
+		    System.out.println("No files send at here...");
+
+		}
+
+			Notes savedNote = noteService.adNotes(notes, userId, files);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
 		} catch (Exception e) {
 			return errorResponse(e);
@@ -70,7 +77,7 @@ public class NoteController {
 			@PathVariable String id,
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
-			@RequestPart(value = "files", required = false) List<MultipartFile> files) {
+			@RequestPart(value = "files", required = false) MultipartFile [] files) {
 		try {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
