@@ -110,6 +110,9 @@ public class UserRolesController {
 	@GetMapping("/search/role")
 	public ResponseEntity<?> findByRoles(Roles roles) {
 		try {
+
+		    System.out.println("searching role :- " + roles);
+
 			List<UserRoles> rolesList = rolesService.findByRolesContainingIgnoreCase(roles);
 			return ResponseEntity.ok(rolesList);
 		} catch (Exception e) {

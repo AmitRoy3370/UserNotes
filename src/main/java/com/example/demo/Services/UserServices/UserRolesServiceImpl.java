@@ -199,17 +199,17 @@ public class UserRolesServiceImpl implements UserRolesService {
 		//roles = rolesRepository.save(roles);
 
 		Query query = new Query(Criteria.where("_id").is(id));
-		
+
 		Update update = new Update();
-		
+
 		update.set("id", roles.getId());
 		update.set("userId", roles.getUserId());
 		update.set("roles", roles.getRoles());
-		
+
 		mongoTemplate.updateFirst(query, update, UserRoles.class);
-		
+
 		roles = mongoTemplate.findOne(query, UserRoles.class);
-		
+
 		if (roles == null) {
 
 			throw new ArithmeticException("Data not saved...");
@@ -371,11 +371,15 @@ public class UserRolesServiceImpl implements UserRolesService {
 
 			List<UserRoles> list = rolesRepository.findByRolesContainingIgnoreCase(roles);
 
+			System.out.println("roles list :- " + list);
+
 			if (list.isEmpty()) {
 
 				throw new Exception();
 
 			}
+
+
 
 			return list;
 
