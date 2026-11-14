@@ -50,7 +50,7 @@ public class NoteController {
 	public ResponseEntity<?> addNotes(
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
-			@RequestPart(value = "files", required = false) [] files) {
+			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
@@ -77,7 +77,7 @@ public class NoteController {
 			@PathVariable String id,
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
-			@RequestPart(value = "files", required = false) MultipartFile [] files) {
+			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
