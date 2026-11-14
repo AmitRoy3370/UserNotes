@@ -50,32 +50,35 @@ public class NoteController {
 	public ResponseEntity<?> addNotes(
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
-			@RequestPart(value = "files", required = false) MultipartFile[] files) {
+			@RequestParam(value = "files", required = false) List<MultipartFile> files) { // Changed to List<MultipartFile>
 		try {
-
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
-
 			String userId = authUser.getId();
-			Notes savedNote = noteService.adNotes(notes, userId, files);
+
+
+			MultipartFile[] filesArray = (files != null) ? files.toArray(new MultipartFile[0]) : null;
+
+			Notes savedNote = noteService.adNotes(notes, userId, filesArray);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
 		} catch (Exception e) {
 			return errorResponse(e);
 		}
 	}
 
-
 	@PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> updateNotes(
 			@PathVariable String id,
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
-			@RequestPart(value = "files", required = false) MultipartFile[] files) {
+			@RequestParam(value = "files", required = false) List<MultipartFile> files) { // Changed to List<MultipartFile>
 		try {
-
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
-
 			String userId = authUser.getId();
-			Notes updatedNote = noteService.updateNotes(notes, userId, id, files);
+
+
+			MultipartFile[] filesArray = (files != null) ? files.toArray(new MultipartFile[0]) : null;
+
+			Notes updatedNote = noteService.updateNotes(notes, userId, id, filesArray);
 			return ResponseEntity.ok(updatedNote);
 		} catch (Exception e) {
 			return errorResponse(e);
