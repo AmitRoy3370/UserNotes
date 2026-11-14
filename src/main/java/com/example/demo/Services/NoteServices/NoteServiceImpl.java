@@ -127,10 +127,10 @@ public class NoteServiceImpl implements NoteService {
 					}
 					String contentType = file.getContentType();
 					System.out.println("Content type of file :- " + contentType);
-					if (contentType != null && contentType.startsWith("image/")) {
+					//if (contentType != null && contentType.startsWith("image/")) {
 						String profileImageUrl = uploadPostAttachment(file, user.getUserName());
 						attachmentsUrl.add(profileImageUrl);
-					}
+					//}
 
 				} catch (Exception e) {
 
@@ -266,10 +266,10 @@ public class NoteServiceImpl implements NoteService {
 					}
 					String contentType = file.getContentType();
 					System.out.println("Content type of file :- " + contentType);
-					if (contentType != null && contentType.startsWith("image/")) {
+					//if (contentType != null && contentType.startsWith("image/")) {
 						String profileImageUrl = uploadPostAttachment(file, user.getUserName());
 						attachmentsUrl.add(profileImageUrl);
-					}
+					//}
 
 				} catch (Exception e) {
 
