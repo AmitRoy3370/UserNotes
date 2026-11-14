@@ -385,6 +385,8 @@ public class UserRolesServiceImpl implements UserRolesService {
 
 		} catch (Exception e) {
 
+		    System.out.println("error in find by role is :- " + e);
+
 			throw new NoSuchElementException("No such roles find at here...");
 
 		}
