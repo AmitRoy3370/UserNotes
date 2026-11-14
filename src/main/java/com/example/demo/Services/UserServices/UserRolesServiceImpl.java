@@ -76,7 +76,7 @@ public class UserRolesServiceImpl implements UserRolesService {
 
 			if (userRoles != null) {
 
-				throw new Exception();
+				throw new ArithmeticException();
 
 			}
 
