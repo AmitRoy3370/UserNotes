@@ -90,6 +90,16 @@ public class NoteServiceImpl implements NoteService {
 
 		}
 
+		if(files != null) {
+
+            System.out.println("total files send :- " + files.length);
+
+		} else {
+
+		    System.out.println("No files send at here...");
+
+		}
+
 		List<String> attachmentsUrl = new ArrayList<>();
 
 		if (notes.getNoteAttachmentsUrls() != null) {
