@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,8 +44,7 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
 
-
-		@PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> addNotes(
 			@AuthenticationPrincipal User authUser,
 			@RequestParam("notes") String notesJson,
@@ -55,15 +53,11 @@ public class NoteController {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
 
-            if(files != null) {
-
-            System.out.println("total files send :- " + files.length);
-
-		} else {
-
-		    System.out.println("No files send at here...");
-
-		}
+			if (files != null) {
+				System.out.println("total files send :- " + files.length);
+			} else {
+				System.out.println("No files send at here...");
+			}
 
 			Notes savedNote = noteService.adNotes(notes, userId, files);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
@@ -82,9 +76,8 @@ public class NoteController {
 			Notes notes = objectMapper.readValue(notesJson, Notes.class);
 			String userId = authUser.getId();
 
-			MultipartFile[] filesArray = (files != null) ? files.toArray(new MultipartFile[0]) : null;
-
-			Notes updatedNote = noteService.updateNotes(notes, userId, id, filesArray);
+			// Pass the array directly, no need for .toArray()
+			Notes updatedNote = noteService.updateNotes(notes, userId, id, files);
 			return ResponseEntity.ok(updatedNote);
 		} catch (Exception e) {
 			return errorResponse(e);
